@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="shortcut icon" href="./favicon.png" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/algolia-min.css" />
+  <link rel="stylesheet" href="static/index.css" />
+
+  <title>RFC Search</title>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="header-title">
+      <a href="/">RFC Search</a>
+    </h1>
+  </header>
+
+  <div class="container">
+    <div class="search-panel">
+      <div class="search-panel__filters">
+        <div id="dynamic-widgets"></div>
+      </div>
+      <div class="search-panel__results">
+        <div id="searchbox"></div>
+        <div id="stats"></div>
+        <div id="hits"></div>
+        <div id="pagination"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.44.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typesense-instantsearch-adapter@2/dist/typesense-instantsearch-adapter.min.js"></script>
+  <script>
+    const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+      server: {
+        // Not really needed, since the API key is set in the backend, but the js module, wants to have it
+        apiKey: '', // Be sure to use an API key that only allows searches, in production
+        nodes: [
+          {
+            host: '<%== process.env.APP_HOST %>',
+            //port: '8108',
+            port: '<%== process.env.APP_PORT %>',
+            protocol: '<%== process.env.APP_PROTOCOL %>',
+          },
+        ],
+      },
+      // The following parameters are directly passed to Typesense's search API endpoint.
+      //  So you can pass any parameters supported by the search endpoint below.
+      //  queryBy is required.
+      //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
+      additionalSearchParameters: {
+        //queryBy: 'title,authors,content',
+        queryBy: 'title,authors,content,doc_id',
+        excludeFields: 'content',
+      },
+    })
+    const searchClient = typesenseInstantsearchAdapter.searchClient
+
+    const search = instantsearch({
+      searchClient,
+      indexName: '<%== process.env.TYPESENSE_COLLECTION %>',
+    })
+
+    search.addWidgets([
+      instantsearch.widgets.searchBox({
+        container: '#searchbox',
+      }),
+      instantsearch.widgets.configure({
+        hitsPerPage: 8,
+      }),
+      instantsearch.widgets.stats({
+        container: '#stats',
+      }),
+      instantsearch.widgets.hits({
+        container: '#hits',
+        templates: {
+          item(item) {
+            const abstract = item._rawTypesenseHit.document.abstract
+            delete item._rawTypesenseHit.document.abstract
+            const fileName = item._rawTypesenseHit.document.doc_id.toLowerCase().replace(/rfc0+/, "rfc")
+            return `
+                <div>
+                  <div class="hit-name">${item._highlightResult.doc_id.value}:<br />${item._highlightResult.title.value}</div>
+                  <a href="static/rfcs/${fileName}.txt">${fileName}.txt</a>
+                  <div class="hit-authors">${item._highlightResult.authors.map((a) => a.value).join(', ')}</div>
+                  <div class="hit-publication-year">${item.pub_date}</div>
+                  <div class="hit-abstract">${abstract || 'No abstract'}</div>
+                  <div class="hit-details"><pre>${JSON.stringify(item._rawTypesenseHit.document, null, 2)}</pre></div>
+                </div>
+              `
+          },
+        },
+      }),
+      instantsearch.widgets.pagination({
+        container: '#pagination',
+      }),
+      instantsearch.widgets.dynamicWidgets({
+        container: '#dynamic-widgets',
+        fallbackWidget({container, attribute}) {
+          return instantsearch.widgets.panel({
+            templates: {header: () => attribute},
+          })(instantsearch.widgets.refinementList)({
+            container,
+            attribute,
+          })
+        },
+        widgets: [],
+      }),
+      instantsearch.widgets.pagination({
+        container: '#pagination',
+      }),
+    ])
+
+    search.start()
+  </script>
+</body>
+
+</html>
