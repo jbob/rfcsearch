@@ -1,0 +1,36 @@
+:root {
+  --width: 100rem !important;
+  --font-p: 1.1em/1.7 'Libertinus Sans', sans-serif !important;
+  --font-h: 1em/1.5 'Libertinus Sans', sans-serif !important;
+  --font-c: 0.7em/1.4 'DejaVu Sans Mono', monospace !important;
+}
+
+.ais-Hits-list {
+  padding: 1rem !important;
+}
+
+.ais-Pagination-list {
+  align-items: baseline !important;
+}
+
+.ais-Pagination-link {
+  padding: 0.2em 0.5em;
+  margin: 0.1em;
+  border: 1.5px solid var(--cfg);
+  color: var(--cfg);
+}
+
+.ais-Pagination-item--selected .ais-Pagination-link {
+  border: 1.5px solid var(--clink);
+  color: var(--clink);
+}
+
+.ais-RefinementList-item input[type='checkbox'] {
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ais-Panel-header {
+  border-bottom: 1px solid;
+}

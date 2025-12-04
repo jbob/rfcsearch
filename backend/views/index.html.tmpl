@@ -1,0 +1,22 @@
+% view.layout = 'layout';
+<script>
+  window.userBookmarks = <%== userBookmarks %>
+</script>
+<main class="row">
+  <div class="col">
+    <div class="search-panel">
+      <div id="searchbox"></div>
+      <div class="search-panel__results">
+        <div id="stats"></div>
+        <div id="hits"></div>
+        <div id="pagination"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1 search-panel__filters">
+    <div class="search-pnael__filters">
+      <div id="dynamic-widgets"></div>
+    </div>
+  </div>
+</main>
+

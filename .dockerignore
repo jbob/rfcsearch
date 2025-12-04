@@ -1,3 +1,5 @@
-public/rfcs/
-node_modules/
+**/node_modules/
 typesense-data/
+backend/public/rfcs/
+backend/public/js/
+frontend/public/

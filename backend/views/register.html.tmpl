@@ -1,0 +1,21 @@
+% view.layout = 'layout';
+<main>
+  <h1>Register</h1>
+  <form method="post" action="/register">
+    <fieldset>
+      <div>
+        <label for="email">email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div>
+        <label for="password">password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div>
+        <label for="password_confirm">password again</label>
+        <input type="password" id="password_confirm" name="password_confirm" required>
+      </div>
+      <button type="submit">submit</button>
+    </fieldset>
+  </form>
+</main>

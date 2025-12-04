@@ -1,0 +1,35 @@
+{
+  "name": "rfcsearch-frontend",
+  "version": "1.0.0",
+  "description": "A webapp to search all rfcs (full text search)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "NODE_ENV=production webpack --config webpack.prod.js",
+    "build:dev": "webpack --config webpack.dev.js"
+  },
+  "author": "jbob",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@fontsource/libertinus-sans": "^5.2.2",
+    "algoliasearch": "^5.45.0",
+    "highlight.js": "^11.11.1",
+    "instantsearch.css": "^8.8.0",
+    "instantsearch.js": "^4.84.0",
+    "lucide": "^0.555.0",
+    "typesense-instantsearch-adapter": "^2.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "eslint": "^9.39.1",
+    "mini-css-extract-plugin": "^2.9.4",
+    "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-merge": "^6.0.1"
+  }
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="./static/js/bundle.css">
+    <title>RFC Search</title>
+  </head>
+
+  <body>
+    <header>
+      <nav class="noprint">
+        <ul>
+          <li><a href="/">RFC search</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#basic">Reference ▾</a>
+            <ul>
+              <li><a href="#basic">Basic Style</a></li>
+              <li><a href="#extra">Extra Style</a></li>
+              <li><a href="#bootless">Classes</a></li>
+              <li><a href="#sec-addons">Add-Ons</a></li>
+            </ul>
+          </li>
+          <li class="float-right"><a href="https://github.com/jbob/rfcsearch">@GitHub</a></li>
+        </ul>
+      </nav>
+    </header>
+    % const flash = await ctx.flash();
+    % if (flash.confirmation) {
+      <div class="card warn"><p>warning</p><p><%= flash.confirmation %></p></div>
+    % }
+    <%== ctx.content.main %>
+  </body>
+  <script src="./static/js/bundle.js"></script>
+</html>

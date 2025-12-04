@@ -1,4 +1,3 @@
-version: '3'
 services:
   typesense-server:
     image: typesense/typesense:27.1
@@ -9,7 +8,9 @@ services:
   webapp:
     build: .
     restart: on-failure
+    environment:
+      - NODE_ENV=production
     volumes:
-      - ./public/rfcs:/app/public/rfcs
+      - ./backend/public/rfcs:/app/backend/public/rfcs
     ports:
       - 3000:3000

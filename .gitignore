@@ -1,4 +1,6 @@
-node_modules/
+**/node_modules/
 .env
 typesense-data/
-public/rfcs/
+backend/public/rfcs/
+backend/public/js/
+frontend/public/
