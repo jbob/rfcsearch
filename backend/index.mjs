@@ -6,10 +6,13 @@ dotenv.config({
   path: '../.env',
 })
 
+import bcrypt from 'bcrypt'
+
 import { Sequelize, DataTypes } from 'sequelize'
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storate: ':memory:',
+  // storage: ':memory:',
+  storage: 'db.sqlite',
   logging: false,
 })
 const User = sequelize.define('User', {
@@ -31,7 +34,8 @@ const Bookmark = sequelize.define('Bookmark', {
 User.hasMany(Bookmark)
 Bookmark.belongsTo(User)
 
-await sequelize.sync({ force: true })
+//await sequelize.sync({ force: true })
+await sequelize.sync({ alter: true })
 
 const app = mojo()
 
@@ -63,7 +67,8 @@ app.post('/login', async (ctx) => {
     return await ctx.redirectTo('/login')
   }
   const user = await User.findOne({ where: { email: email } })
-  if (password !== user?.password) {
+  const passwordMatch = await bcrypt.compare(password, user?.password)
+  if (!passwordMatch) {
     const flash = await ctx.flash()
     flash.confirmation = 'invalid login'
     return await ctx.redirectTo('/login')
@@ -93,7 +98,9 @@ app.post('/register', async (ctx) => {
     flash.confirmation = 'user already exists'
     return await ctx.redirectTo('/register')
   }
-  const user = await User.create({ email: email, password: password })
+  const saltRounds = 10
+  const hashedPassword = await bcrypt.hash(password, saltRounds)
+  const user = await User.create({ email: email, password: hashedpassword })
   const session = await ctx.session()
   session.email = email
   await ctx.redirectTo('/')

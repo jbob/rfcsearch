@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "@mojojs/core": "^1.26.9",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"
