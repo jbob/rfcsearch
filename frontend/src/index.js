@@ -33,12 +33,9 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     apiKey: '', // Be sure to use an API key that only allows searches, in production
     nodes: [
       {
-        host: '192.168.178.33',
-        //host: '<%== process.env.APP_HOST %>',
-        port: '3000',
-        //port: '<%== process.env.APP_PORT %>',
-        protocol: 'http',
-        //protocol: '<%== process.env.APP_PROTOCOL %>',
+        protocol: location.protocol.slice(0, -1),
+        host: location.hostname,
+        port: location.port,
       },
     ],
   },

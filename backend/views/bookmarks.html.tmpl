@@ -1,0 +1,11 @@
+% view.layout = 'layout';
+<main>
+  <h1>bookmarks</h1>
+  <ul>
+  % for (const bookmark of userBookmarks) {
+    <li>
+      <a href="<%= bookmark %>"><%= bookmark %></a>
+    </li>
+  % }
+  </ul>
+</main>

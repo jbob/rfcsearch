@@ -100,7 +100,7 @@ app.post('/register', async (ctx) => {
   }
   const saltRounds = 10
   const hashedPassword = await bcrypt.hash(password, saltRounds)
-  const user = await User.create({ email: email, password: hashedpassword })
+  const user = await User.create({ email: email, password: hashedPassword })
   const session = await ctx.session()
   session.email = email
   await ctx.redirectTo('/')
@@ -135,11 +135,23 @@ app.post('/api/bookmarks', async (ctx) => {
   return await ctx.render({ json: { bookmarks: bookmarkIds } })
 })
 
+app.get('/bookmarks', async (ctx) => {
+  const session = await ctx.session()
+  const email = session.email
+  return await ctx.render({ view: 'bookmarks' })
+  if (!email) {
+    return await ctx.redirectTo('/login')
+  }
+  const user = await User.findOne({ where: { email: email } })
+  const bookmarks = await user.getBookmarks()
+  ctx.stash.userBookmarks = JSON.stringify(bookmarks.map((b) => b.number))
+  return await ctx.render({ view: 'bookmarks' })
+})
+
 app.get('/', async (ctx) => {
   const session = await ctx.session()
   const email = session.email
   let bookmarks = []
-  console.log(email)
   if (email) {
     const user = await User.findOne({ where: { email: email } })
     bookmarks = await user.getBookmarks()

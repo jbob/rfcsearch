@@ -12,5 +12,6 @@ services:
       - NODE_ENV=production
     volumes:
       - ./backend/public/rfcs:/app/backend/public/rfcs
+      - ./backend/db.sqlite:/app/backend/db.sqlite
     ports:
       - 3000:3000
