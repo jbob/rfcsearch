@@ -83,7 +83,6 @@ if (document.getElementById('searchbox')) {
     'teapot',
     'ipv6 social',
     'ascii art',
-    'tea party',
   ]
 
   const randomTopic =
@@ -129,7 +128,7 @@ if (document.getElementById('searchbox')) {
                 <button onclick="window.toggleBookmark(this, '${item.doc_id}', '${item.title}')"><i data-lucide="${bookmarkIcon}" ></i></button>
               </div>
             </div>
-            <a href="static/rfcs/${fileName}.txt">${fileName}.txt</a>
+            <a href="/rfc/${fileName}.txt">${fileName}.txt</a>
             <div class="hit-authors">
               ${item._highlightResult.authors.map((a) => a.value).join(', ')}
             </div>

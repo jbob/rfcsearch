@@ -12,7 +12,7 @@ import { Sequelize, DataTypes } from 'sequelize'
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   // storage: ':memory:',
-  storage: 'db.sqlite',
+  storage: 'db/db.sqlite',
   logging: false,
 })
 const User = sequelize.define('User', {
@@ -148,6 +148,16 @@ app.get('/bookmarks', async (ctx) => {
   const bookmarks = await user.getBookmarks()
   ctx.stash.userBookmarks = bookmarks
   return await ctx.render({ view: 'bookmarks' })
+})
+
+app.get('/rfc/*number', async (ctx) => {
+  const number = ctx.stash.number
+  const content = app.home
+    .child('public/rfcs')
+    .child(number)
+    .readFileSync('utf8')
+  ctx.stash.content = content
+  return await ctx.render({ view: 'rfc' })
 })
 
 app.get('/', async (ctx) => {

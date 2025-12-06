@@ -10,7 +10,7 @@
   - [x] make bookmark list work (q parameter on load for index page)
 - [x] dark/light theme css stuff
 - [x] mobile friendly layout
-- [ ] fancier txt display
+- [x] fancier txt display
 - [ ] automate/fix rfc update
 - [ ] AI / RAG stuff
 - [x] Learn about localizing dependencies (webpack, vite?)
