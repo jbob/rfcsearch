@@ -14,7 +14,7 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import hljs from 'highlight.js/lib/core'
 import json from 'highlight.js/lib/languages/json'
 hljs.registerLanguage('json', json)
-import { createIcons, Bookmark, BookmarkCheck } from 'lucide'
+import { createIcons, Bookmark, BookmarkCheck, FileSearchCorner } from 'lucide'
 
 // 2. CSS/Theme imports
 // Webpack and css-loader process these files from the node_modules folder
@@ -25,6 +25,12 @@ import './hljs-style.css'
 import 'instantsearch.css/themes/reset-min.css'
 import '@fontsource/libertinus-sans'
 import './index.css'
+
+createIcons({
+  icons: {
+    FileSearchCorner,
+  },
+})
 
 if (document.getElementById('searchbox')) {
   const queryBy =
