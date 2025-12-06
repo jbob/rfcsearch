@@ -2,4 +2,5 @@
 typesense-data/
 backend/public/rfcs/
 backend/public/js/
+backend/db.sqlite
 frontend/public/

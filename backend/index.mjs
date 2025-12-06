@@ -30,12 +30,15 @@ const Bookmark = sequelize.define('Bookmark', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 })
 User.hasMany(Bookmark)
 Bookmark.belongsTo(User)
 
-//await sequelize.sync({ force: true })
-await sequelize.sync({ alter: true })
+await sequelize.sync()
 
 const app = mojo()
 
@@ -67,7 +70,7 @@ app.post('/login', async (ctx) => {
     return await ctx.redirectTo('/login')
   }
   const user = await User.findOne({ where: { email: email } })
-  const passwordMatch = await bcrypt.compare(password, user?.password)
+  const passwordMatch = await bcrypt.compare(password, user?.password || '')
   if (!passwordMatch) {
     const flash = await ctx.flash()
     flash.confirmation = 'invalid login'
@@ -106,9 +109,10 @@ app.post('/register', async (ctx) => {
   await ctx.redirectTo('/')
 })
 
-app.post('/api/bookmarks', async (ctx) => {
+app.post('/bookmarks', async (ctx) => {
   const param = await ctx.req.json()
   const hitId = param.id
+  const title = param.title
   const session = await ctx.session()
   const email = session.email
   if (!email) {
@@ -127,24 +131,22 @@ app.post('/api/bookmarks', async (ctx) => {
   if (existingBookmark) {
     await existingBookmark.destroy()
   } else {
-    await user.createBookmark({ number: hitId })
+    await user.createBookmark({ number: hitId, title: title })
   }
 
   const updatedBookmarks = await user.getBookmarks()
-  const bookmarkIds = updatedBookmarks.map((b) => b.number)
-  return await ctx.render({ json: { bookmarks: bookmarkIds } })
+  return await ctx.render({ json: { bookmarks: updatedBookmarks } })
 })
 
 app.get('/bookmarks', async (ctx) => {
   const session = await ctx.session()
   const email = session.email
-  return await ctx.render({ view: 'bookmarks' })
   if (!email) {
     return await ctx.redirectTo('/login')
   }
   const user = await User.findOne({ where: { email: email } })
   const bookmarks = await user.getBookmarks()
-  ctx.stash.userBookmarks = JSON.stringify(bookmarks.map((b) => b.number))
+  ctx.stash.userBookmarks = bookmarks
   return await ctx.render({ view: 'bookmarks' })
 })
 

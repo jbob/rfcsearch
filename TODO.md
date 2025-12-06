@@ -3,10 +3,11 @@
 - [x] Write TODO list
 - [x] Update node modules to latest version
 - [ ] Login/User Mgmt via Google Login (OAuth)
-- [ ] sqlite backend
+- [x] sqlite backend
 - [ ] search history
 - [ ] document history
-- [ ] bookmarks
+- [x] bookmarks
+  - [x] make bookmark list work (q parameter on load for index page)
 - [x] dark/light theme css stuff
 - [x] mobile friendly layout
 - [ ] fancier txt display
